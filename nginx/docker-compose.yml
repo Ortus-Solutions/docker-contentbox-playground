@@ -1,0 +1,34 @@
+# ContentBox Site Example with Docker Compose.
+version: "3"
+
+services:
+
+  # CMS Container
+  contentbox:
+    image: ortussolutions/contentbox
+    
+    # Environment Variables
+    environment:
+      express: "true"
+      install: "true"
+
+    # Ports
+    ports:
+      - "8080:8080"
+
+    # Data & Overrides
+    volumes:
+      # Persist H2 Database
+      - ./build/docker/contentbox-db:/data/contentbox/db
+      # Persist Media Manager
+      - ./docker/webroot/content:/app/includes/shared/media
+
+  # NGINX Container
+  nginx:
+    # build: ./docker/nginx
+    image: nginx
+    ports: 
+      - "8500:80"
+    volumes:
+      - ./docker/nginx/config:/etc/nginx
+      - ./docker/webroot:/opt/sites/default

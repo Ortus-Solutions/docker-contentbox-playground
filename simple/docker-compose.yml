@@ -1,0 +1,24 @@
+# ContentBox Site Example with Docker Compose.
+version: "3"
+
+services:
+  contentbox:
+    image: ortussolutions/contentbox
+    
+    # Environment Variables
+    environment:
+      express: "true"
+      #install: "true"
+      #headless: "true"
+      cfconfig_adminPassword: contentbox
+    
+    # Ports
+    ports:
+      - "8080:8080"
+    
+    # Data & Overrides
+    volumes:
+      # Persist HSQL Database
+      - ./docker/contentbox-db:/data/contentbox/db
+      # Persist Media Manager
+      - ./docker/contentbox-content:/app/includes/shared/media
